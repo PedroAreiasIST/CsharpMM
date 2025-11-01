@@ -47,9 +47,22 @@ public class Zoo
         athing.TypesAndNodes[nodeType] = nodenumbers;
     }
 
-    private void uploadelement(Thing defined)
+    // FIX: Completed the method - now recursively uploads children
+    private void UploadElement(Thing defined)
     {
         defined.UploadThing(lifemanager, defined, models[defined.Typenumber]);
         var children = defined.GetAllChildren(models[defined.Typenumber]);
+        
+        // Recursively upload each child element
+        foreach (var child in children)
+        {
+            UploadElement(child);
+        }
+    }
+    
+    // Added public method to upload an element
+    public void Upload(Thing element)
+    {
+        UploadElement(element);
     }
 }

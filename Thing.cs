@@ -40,12 +40,14 @@ public class Thing
     public Dictionary<int, List<int>> TypesAndNodes { get; set; } = new(); // [nodetype][localnode]->nodenumber
     public int Typenumber { get; set; } = -1;
 
+    // FIX: Changed from trying to index into non-existent positions to simply assigning the list
     private void AppendElement(int nodetype, List<int> nodes)
     {
         if (!TypesAndNodes.ContainsKey(nodetype))
             TypesAndNodes[nodetype] = new List<int>();
 
-        for (var i = 0; i < nodes.Count; i++) TypesAndNodes[nodetype][i] = nodes[i];
+        // Simply assign the nodes list instead of trying to index
+        TypesAndNodes[nodetype] = nodes;
     }
 
     public List<Thing> GetAllChildren(ThingModel model)

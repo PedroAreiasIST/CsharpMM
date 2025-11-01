@@ -2,7 +2,8 @@ namespace mm2;
 
 public class MM2M
 {
-    public readonly Dictionary<int, HashSet<int>> ListOfMarked = new();
+    // FIX: Removed inline initialization - done only in constructor
+    public readonly Dictionary<int, HashSet<int>> ListOfMarked;
     private readonly M2M[,] mat;
     private readonly object syncLock = new();
 
@@ -14,6 +15,8 @@ public class MM2M
         for (var j = 0; j < numberOfTypes; j++)
             mat[i, j] = new M2M();
         NumberOfTypes = numberOfTypes;
+        // FIX: Initialize only once
+        ListOfMarked = new Dictionary<int, HashSet<int>>();
         InitializeMarkedCollections();
     }
 
@@ -302,7 +305,8 @@ public class MM2M
 
     private void InitializeMarkedCollections()
     {
-        for (var i = 0; i < NumberOfTypes; i++) ListOfMarked[i] = new HashSet<int>();
+        for (var i = 0; i < NumberOfTypes; i++) 
+            ListOfMarked[i] = new HashSet<int>();
     }
 
     private void MarkNodeForErasure(int nodeType, int node)
